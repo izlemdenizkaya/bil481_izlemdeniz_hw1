@@ -53,3 +53,5 @@ test {
     // Use junit platform for unit tests
     useJUnitPlatform()
 }
+task stage(dependsOn: ['shdowJar'])
+shadowJar.mustRunAfter clean
