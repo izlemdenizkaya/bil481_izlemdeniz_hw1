@@ -27,12 +27,12 @@ public class App {
         //System.out.println(new App().getGreeting());
         Logger logger=LogManager.getLogger(Appender.class);
         logger.info("welcome!!");
-        int port=Integer.parseInt(System.getenv("port"));
+        int port=Integer.parseInt(System.getenv("PORT"));
         port(port);
         
+        
+        get("/",(rq,rs) -> "Welcome");
         /*
-        get("/compute",(rq,rs) -> "Welcome");
-
         get("/compute",(rq,rs) -> "In first form,enter a list of integers seperated by newline character");
         get("/compute",(rq,rs) -> "In the second form,enter another integer");
         get("/compute",(rq,rs) -> "In the third form,enter another integer");
