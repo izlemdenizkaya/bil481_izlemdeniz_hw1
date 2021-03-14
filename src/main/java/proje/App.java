@@ -3,7 +3,19 @@
  */
 package proje;
 
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.Appender;
+
+import spark.ModelAndView;
+import spark.template.mustache.MustacheTemplateEngine;
+import static spark.Spark.get;
+import static spark.Spark.post;
 
 public class App {
     public String getGreeting() {
@@ -11,8 +23,74 @@ public class App {
     }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        //System.out.println(new App().getGreeting());
+        Logger logger=LogManager.getLogger(Appender.class);
+        logger.info("welcome!!");
+        
+        /*
+        get("/compute",(rq,rs) -> "Welcome");
+
+        get("/compute",(rq,rs) -> "In first form,enter a list of integers seperated by newline character");
+        get("/compute",(rq,rs) -> "In the second form,enter another integer");
+        get("/compute",(rq,rs) -> "In the third form,enter another integer");
+        get("/compute",(rq,rs) -> "In the fourth form,enter another integer");
+        get("/compute",(rq,rs) -> "If these integers' mean is found in the list,the result becomes true" );*/
+
+        get("/compute",
+             (rq,rs) -> {
+
+                Map<String,String> map = new HashMap<String, String>();
+                map.put("result","not computed yet!");
+                return new ModelAndView(map,"compute.mustache");
+
+             },
+             new MustacheTemplateEngine()
+
+        );
+
+        post("/compute",
+             
+                ( rq,rs) ->{
+
+                    String input1=rq.queryParams("input1");
+                    java.util.Scanner sc1=new java.util.Scanner(input1);
+                    sc1.useDelimiter("[;\r\n]+");
+                    java.util.ArrayList<Integer> inputList = new java.util.ArrayList<>();
+
+                    while(sc1.hasNext()){
+
+                        int value=Integer.parseInt(sc1.next().replaceAll("\\s", ""));
+                        inputList.add(value);
+
+                    }
+                    sc1.close();
+                    System.out.println(inputList);
+
+                    String input2=rq.queryParams("input2");
+                    int input2AsInt=Integer.parseInt(input2.replaceAll("\\s", ""));
+
+                    String input3=rq.queryParams("input3");
+                    int input3AsInt=Integer.parseInt(input3.replaceAll("\\s", ""));
+
+                    String input4=rq.queryParams("input4");
+                    int input4AsInt=Integer.parseInt(input4.replaceAll("\\s", ""));
+
+                   
+
+                    boolean result=App.hasMean(inputList, input2AsInt, input3AsInt, input4AsInt);
+
+                    Map<String, Boolean> map=new HashMap<String, Boolean>();
+                    map.put("result", result);
+                    return new ModelAndView(map,"compute.mustache");
+
+                },
+                new MustacheTemplateEngine()
+
+
+        );
     }
+
+    
 
     public static boolean hasMean(ArrayList<Integer> array,Integer i1,Integer i2,Integer i3){
 

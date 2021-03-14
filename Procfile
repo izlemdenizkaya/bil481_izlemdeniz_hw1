@@ -1,0 +1,1 @@
+web: java -jar build/libs/proje-all.jar
