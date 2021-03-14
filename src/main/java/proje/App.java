@@ -27,9 +27,9 @@ public class App {
         //System.out.println(new App().getGreeting());
         Logger logger=LogManager.getLogger(Appender.class);
         logger.info("welcome!!");
-        /*int port=Integer.parseInt(System.getenv("port"));
+        int port=Integer.parseInt(System.getenv("port"));
         port(port);
-        */
+        
         /*
         get("/compute",(rq,rs) -> "Welcome");
 
